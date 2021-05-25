@@ -1,0 +1,51 @@
+  
+#######################################
+# Syntax Coloring Map For microDS3231
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+microDS3231	KEYWORD1
+MicroDS3231	KEYWORD1
+DateTime	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+setTime	KEYWORD2
+getTime	KEYWORD2s
+lostPower	KEYWORD2
+getSeconds	KEYWORD2
+getMinutes	KEYWORD2
+getHours	KEYWORD2
+getDay	KEYWORD2
+getDate	KEYWORD2
+getYear	KEYWORD2
+getMonth	KEYWORD2
+getTemperatureFloat	KEYWORD2
+getTemperature	KEYWORD2
+getTimeString	KEYWORD2
+getDateString	KEYWORD2
+getTimeChar	KEYWORD2
+getDateChar	KEYWORD2
+
+second	KEYWORD2
+minute	KEYWORD2
+hour	KEYWORD2
+day	KEYWORD2
+date	KEYWORD2
+month	KEYWORD2
+year	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+COMPILE_TIME	LITERAL1
+BUILD_SEC	LITERAL1
+BUILD_MIN	LITERAL1
+BUILD_HOUR	LITERAL1
+BUILD_DAY	LITERAL1
+BUILD_MONTH	LITERAL1
+BUILD_YEAR	LITERAL1
