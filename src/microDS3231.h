@@ -19,6 +19,7 @@
     v2.1 - добавил вывод температуры, вывод в String и char
     v2.2 - исправлены дни недели (пн-вс 1-7)
     v2.3 - небольшие исправления, оптимизация, изменён порядок вывода даты
+    v2.4 - исправлена установка времени компиляции
 */
 
 #ifndef microDS3231_h
@@ -27,7 +28,7 @@
 #include <Wire.h>
 
 #include <Arduino.h>
-#include "buildTime.h"
+#define COMPILE_TIME F(__TIMESTAMP__)
 
 struct DateTime {
     uint8_t second; 
@@ -41,9 +42,9 @@ struct DateTime {
 
 class MicroDS3231 {
 public:
-    MicroDS3231(uint8_t addr = 0x68);// конструктор. Можно передать адрес    
-    void setTime(uint8_t param);	// установка времени == времени компиляции
-    void setTime(DateTime time);	// установить из структуры DateTime
+    MicroDS3231(uint8_t addr = 0x68);               // конструктор. Можно передать адрес    
+    void setTime(const __FlashStringHelper* stamp);	// установка времени == времени компиляции
+    void setTime(DateTime time);	                // установить из структуры DateTime
     void setTime(int8_t seconds, int8_t minutes, int8_t hours, int8_t date, int8_t month, int16_t year);	// установка времени
     void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t month, int16_t year);	// установка времени тип 2
     
@@ -74,5 +75,4 @@ private:
     const uint8_t _addr;
 };
 
-const uint8_t COMPILE_TIME = 1;
 #endif

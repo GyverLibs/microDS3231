@@ -2,7 +2,7 @@
 
 //static const uint8_t _ds_daysInMonth[] PROGMEM = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 static uint8_t _ds_DIM(uint8_t i) {
-  return (i < 7) ? ((i == 1) ? 28 : ((i & 1) ? 30 : 31)) : ((i & 1) ? 31 : 30);
+    return (i < 7) ? ((i == 1) ? 28 : ((i & 1) ? 30 : 31)) : ((i & 1) ? 31 : 30);
 }
 
 static uint16_t getWeekDay(uint16_t y, uint8_t m, uint8_t d) {
@@ -56,8 +56,34 @@ void MicroDS3231::setTime(DateTime time) {
     setTime(time.second, time.minute, time.hour, time.date, time.month, time.year);
 }
 
-void MicroDS3231::setTime(uint8_t param) {
-    setTime(BUILD_SEC, BUILD_MIN, BUILD_HOUR, BUILD_DAY, BUILD_MONTH, BUILD_YEAR);
+static int charToDec(const char* p) {
+    return (10 * (*p - '0') + (*++p - '0'));
+}
+
+void MicroDS3231::setTime(const __FlashStringHelper* stamp) {
+    char buff[25];   
+    memcpy_P(buff, stamp, 25);
+    
+    // Wed Jul 14 22:00:24 2021
+    //     4   8  11 14 17   22
+    // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+    int h, m, s, d, mo, y;
+    h = charToDec(buff + 11);
+    m = charToDec(buff + 14);
+    s = charToDec(buff + 17);
+    d = charToDec(buff + 8);  
+    switch (buff[4]) {
+    case 'J': mo = (buff[5] == 'a') ? 1 : (mo = (buff[6] == 'n') ? 6 : 7); break;
+    case 'F': mo = 2; break;
+    case 'A': mo = (buff[6] == 'r') ? 4 : 8; break;
+    case 'M': mo = (buff[6] == 'r') ? 3 : 5; break;
+    case 'S': mo = 9; break;
+    case 'O': mo = 10; break;
+    case 'N': mo = 11; break;
+    case 'D': mo = 12; break;
+    }
+    y = 2000 + charToDec(buff + 22);
+    setTime(s, m, h, d, mo, y);
 }
 
 DateTime MicroDS3231::getTime() {
