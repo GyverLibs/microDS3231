@@ -46,23 +46,32 @@ void setTime(DateTime time);	// установить из структуры Dat
 void setTime(int8_t seconds, int8_t minutes, int8_t hours, int8_t date, int8_t month, int16_t year);	// установка времени
 void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t month, int16_t year);	// установка времени тип 2
     
-DateTime getTime(void);			// получить в структуру DateTime
-uint8_t getSeconds(void);		// получить секунды
-uint8_t getMinutes(void);		// получить минуты
-uint8_t getHours(void);			// получить часы
-uint8_t getDay(void);			// получить день недели
-uint8_t getDate(void);			// получить число
-uint16_t getYear(void);			// получить год
-uint8_t getMonth(void);			// получить месяц
+// структура DateTime
+uint8_t second; 
+uint8_t minute;
+uint8_t hour;
+uint8_t day;
+uint8_t date;
+uint8_t month;
+uint16_t year;
+
+DateTime getTime();			// получить в структуру DateTime
+uint8_t getSeconds();		// получить секунды
+uint8_t getMinutes();		// получить минуты
+uint8_t getHours();			// получить часы
+uint8_t getDay();			// получить день недели
+uint8_t getDate();			// получить число
+uint16_t getYear();			// получить год
+uint8_t getMonth();			// получить месяц
     
 String getTimeString();			// получить время как строку вида HH:MM:SS
 String getDateString();			// получить дату как строку вида DD.MM.YYYY
 void getTimeChar(char* array);	// получить время как char array [8] вида HH:MM:SS
 void getDateChar(char* array);	// получить дату как char array [10] вида DD.MM.YYYY       
     
-bool lostPower(void);			// проверка на сброс питания
-float getTemperatureFloat(void);// получить температуру float
-int getTemperature(void);		// получить температуру int
+bool lostPower();			// проверка на сброс питания
+float getTemperatureFloat();// получить температуру float
+int getTemperature();		// получить температуру int
 ```
 
 <a id="example"></a>
