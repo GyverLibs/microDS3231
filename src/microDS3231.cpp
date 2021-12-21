@@ -225,5 +225,5 @@ int MicroDS3231::getTemperatureRaw(void) {
     Wire.write(0x11);
     Wire.endTransmission();
     Wire.requestFrom(_addr, (uint8_t)2);
-    return (Wire.read() << 2 | Wire.read() >> 6);
+    return ((int8_t)Wire.read() << 2) + (Wire.read() >> 6);
 }
