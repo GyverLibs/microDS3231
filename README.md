@@ -52,7 +52,7 @@ void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t
 uint8_t second; 
 uint8_t minute;
 uint8_t hour;
-uint8_t day;
+uint8_t day;        // день недели (пн.. вс - 1.. 7)
 uint8_t date;
 uint8_t month;
 uint16_t year;
