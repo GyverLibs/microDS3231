@@ -1,3 +1,5 @@
+This is an automatic translation, may be incorrect in some places. See sources and examples!
+
 #microDS3231
 Lightweight RTC DS3231 library for Arduino
 - Read and write time
