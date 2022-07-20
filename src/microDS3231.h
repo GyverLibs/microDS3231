@@ -22,6 +22,7 @@
     v2.4 - исправлена установка времени компиляции
 	v2.5 - добавлен begin для проверки наличия модуля на линии
     v2.6 - исправлены отрицательные температуры
+    v2.7 - добавлен вывод unix
 */
 
 #ifndef microDS3231_h
@@ -46,33 +47,35 @@ struct DateTime {
 class MicroDS3231 {
 public:
     MicroDS3231(uint8_t addr = 0x68);               // конструктор. Можно передать адрес    
-	bool begin(void);								// инициализация, вернет true, если RTC найден
+	bool begin();								    // инициализация, вернет true, если RTC найден
     void setTime(const __FlashStringHelper* stamp);	// установка времени == времени компиляции
     void setTime(DateTime time);	                // установить из структуры DateTime
     void setTime(int8_t seconds, int8_t minutes, int8_t hours, int8_t date, int8_t month, int16_t year);	// установка времени
     void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t month, int16_t year);	// установка времени тип 2
     
-    DateTime getTime(void);			// получить в структуру DateTime
-    uint8_t getSeconds(void);		// получить секунды
-    uint8_t getMinutes(void);		// получить минуты
-    uint8_t getHours(void);			// получить часы
-    uint8_t getDay(void);			// получить день недели
-    uint8_t getDate(void);			// получить число
-    uint16_t getYear(void);			// получить год
-    uint8_t getMonth(void);			// получить месяц
+    DateTime getTime();			    // получить в структуру DateTime
+    uint8_t getSeconds();		    // получить секунды
+    uint8_t getMinutes();		    // получить минуты
+    uint8_t getHours();			    // получить часы
+    uint8_t getDay();			    // получить день недели
+    uint8_t getDate();			    // получить число
+    uint16_t getYear();			    // получить год
+    uint8_t getMonth();			    // получить месяц
+    
+    uint32_t getUnix(int16_t gmt);  // получить unix время (указать свой часовой пояс в часах ИЛИ минутах)
     
     String getTimeString();			// получить время как строку вида HH:MM:SS
     String getDateString();			// получить дату как строку вида DD.MM.YYYY
     void getTimeChar(char* array);	// получить время как char array [8] вида HH:MM:SS
     void getDateChar(char* array);	// получить дату как char array [10] вида DD.MM.YYYY       
     
-    bool lostPower(void);			// проверка на сброс питания
-    float getTemperatureFloat(void);// получить температуру float
-    int getTemperature(void);		// получить температуру int
+    bool lostPower();			    // проверка на сброс питания
+    int getTemperature();		    // получить температуру int
+    float getTemperatureFloat();    // получить температуру float
     
 private:
     uint8_t encodeRegister(int8_t data);
-    int getTemperatureRaw(void);
+    int getTemperatureRaw();
     uint8_t readRegister(uint8_t addr);
     uint8_t unpackRegister(uint8_t data);
     uint8_t unpackHours(uint8_t data);

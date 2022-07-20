@@ -1,7 +1,7 @@
 #include "microDS3231.h"
 
 //static const uint8_t _ds_daysInMonth[] PROGMEM = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-static uint8_t _ds_DIM(uint8_t i) {
+static uint8_t DS_dim(uint8_t i) {
     return (i < 7) ? ((i == 1) ? 28 : ((i & 1) ? 30 : 31)) : ((i & 1) ? 31 : 30);
 }
 
@@ -11,9 +11,8 @@ static uint16_t getWeekDay(uint16_t y, uint8_t m, uint8_t d) {
     uint16_t days = d;
     for (uint8_t i = 1; i < m; ++i)
     //days += pgm_read_byte(_ds_daysInMonth + i - 1);
-    days += _ds_DIM(i - 1);
-    if (m > 2 && y % 4 == 0)
-    ++days;
+    days += DS_dim(i - 1);
+    if (m > 2 && y % 4 == 0) days++;
     return (days + 365 * y + (y + 3) / 4 + 4) % 7 + 1;
 }
 
@@ -23,8 +22,8 @@ MicroDS3231::MicroDS3231(uint8_t addr) : _addr(addr) {
 }
 
 bool MicroDS3231::begin(void){
-	Wire.begin();                       // Инит шины
-	Wire.beginTransmission(_addr);      // Зовем DS3231 по адресу
+    Wire.begin();                       // Инит шины
+    Wire.beginTransmission(_addr);      // Зовем DS3231 по адресу
     return (!Wire.endTransmission());   // если никто не откликнулся - возвращаем false
 }
 
@@ -32,7 +31,7 @@ void MicroDS3231::setTime(int8_t seconds, int8_t minutes, int8_t hours, int8_t d
     // защиты от дурака
     month = constrain(month, 1, 12);
     //date = constrain(date, 0, pgm_read_byte(_ds_daysInMonth + month - 1));
-    date = constrain(date, 0, _ds_DIM(month - 1));
+    date = constrain(date, 0, DS_dim(month - 1));
     seconds = constrain(seconds, 0, 59);
     minutes = constrain(minutes, 0, 59);
     hours = constrain(hours, 0, 23);
@@ -63,23 +62,22 @@ void MicroDS3231::setTime(DateTime time) {
 }
 
 static int charToDec(const char* p) {
-    return (10 * (*p - '0') + (*++p - '0'));
+    return ((*p - '0') * 10 + (*(p + 1) - '0'));
 }
 
 void MicroDS3231::setTime(const __FlashStringHelper* stamp) {
-    char buff[25];   
-    memcpy_P(buff, stamp, 25);
-    
     // Wed Jul 14 22:00:24 2021
     //     4   8  11 14 17   22
     // Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+    char buff[25];   
+    memcpy_P(buff, stamp, 25);
     int h, m, s, d, mo, y;
     h = charToDec(buff + 11);
     m = charToDec(buff + 14);
     s = charToDec(buff + 17);
     d = charToDec(buff + 8);  
     switch (buff[4]) {
-    case 'J': mo = (buff[5] == 'a') ? 1 : (mo = (buff[6] == 'n') ? 6 : 7); break;
+    case 'J': mo = (buff[5] == 'a') ? 1 : ((buff[6] == 'n') ? 6 : 7); break;
     case 'F': mo = 2; break;
     case 'A': mo = (buff[6] == 'r') ? 4 : 8; break;
     case 'M': mo = (buff[6] == 'r') ? 3 : 5; break;
@@ -107,9 +105,21 @@ DateTime MicroDS3231::getTime() {
     now.year = unpackRegister(Wire.read()) + 2000;
     return now;
 }
+
+uint32_t MicroDS3231::getUnix(int16_t gmt) {
+    DateTime now = getTime();
+    if (abs(gmt) <= 12) gmt *= 60;
+    int8_t my = (now.month >= 3) ? 1 : 0;
+    uint16_t y = now.year + my - 1970;
+    uint16_t dm = 0;
+    for (int i = 0; i < now.month - 1; i++) dm += DS_dim(i);
+    return (((now.date-1+dm+((y+1)/4)-((y+69)/100)+((y+369)/100/4)+365*(y-my))*24ul+now.hour)*60ul+now.minute-gmt)*60ul+now.second;
+}
+
 String MicroDS3231::getTimeString() {
     DateTime now = getTime();
-    String str = "";
+    String str;     // HH:MM:SS
+    str.reserve(8);
     if (now.hour < 10) str += '0';
     str += now.hour;
     str += ':';
@@ -122,7 +132,8 @@ String MicroDS3231::getTimeString() {
 }
 String MicroDS3231::getDateString() {
     DateTime now = getTime();
-    String str = "";
+    String str;     // DD.MM.YYYY
+    str.reserve(10);
     if (now.date < 10) str += '0';
     str += now.date;
     str += '.';
@@ -156,8 +167,7 @@ void MicroDS3231::getDateChar(char* array) {
     array[10] = '\0';
 }
 bool MicroDS3231::lostPower(void) { // возвращает true, если 1 января 2000
-    if (getYear() == 2000 && getMonth() == 1 && getDate() == 1) return true;
-    else return false;
+    return (getYear() == 2000 && getMonth() == 1 && getDate() == 1);
 }
 
 uint8_t MicroDS3231::getSeconds(void) {
@@ -194,8 +204,7 @@ uint8_t MicroDS3231::readRegister(uint8_t addr) {
     Wire.write(addr);
     if (Wire.endTransmission() != 0) return 0;
     Wire.requestFrom(_addr, (uint8_t)1);
-    uint8_t data = Wire.read();
-    return data;
+    return Wire.read();
 }
 
 uint8_t MicroDS3231::unpackRegister(uint8_t data) {

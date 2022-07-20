@@ -32,6 +32,7 @@ getTimeString	KEYWORD2
 getDateString	KEYWORD2
 getTimeChar	KEYWORD2
 getDateChar	KEYWORD2
+getUnix	KEYWORD2
 
 second	KEYWORD2
 minute	KEYWORD2

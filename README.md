@@ -60,20 +60,21 @@ void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t
 uint8_t second; 
 uint8_t minute;
 uint8_t hour;
-uint8_t day;        // день недели (пн.. вс - 1.. 7)
+uint8_t day;        // день недели (пн.. вс = 1.. 7)
 uint8_t date;
 uint8_t month;
 uint16_t year;
 
-DateTime getTime();			// получить в структуру DateTime
-uint8_t getSeconds();		// получить секунды
-uint8_t getMinutes();		// получить минуты
-uint8_t getHours();			// получить часы
-uint8_t getDay();			// получить день недели
-uint8_t getDate();			// получить число
-uint16_t getYear();			// получить год
-uint8_t getMonth();			// получить месяц
-    
+DateTime getTime();			    // получить в структуру DateTime
+uint8_t getSeconds();		    // получить секунды
+uint8_t getMinutes();		    // получить минуты
+uint8_t getHours();			    // получить часы
+uint8_t getDay();			    // получить день недели
+uint8_t getDate();			    // получить число
+uint16_t getYear();			    // получить год
+uint8_t getMonth();			    // получить месяц
+uint32_t getUnix(int16_t gmt);  // получить unix время (указать свой часовой пояс в часах ИЛИ минутах)
+
 String getTimeString();			// получить время как строку вида HH:MM:SS
 String getDateString();			// получить дату как строку вида DD.MM.YYYY
 void getTimeChar(char* array);	// получить время как char array [8] вида HH:MM:SS
@@ -203,7 +204,8 @@ void loop() {
 - v2.4 - исправлена установка времени компиляции
 - v2.5 - добавлен begin для проверки наличия модуля на линии
 - v2.6 - исправлены отрицательные температуры
-    
+- v2.7 - добавлен вывод unix
+
 <a id="feedback"></a>
 ## Баги и обратная связь
 При нахождении багов создавайте **Issue**, а лучше сразу пишите на почту [alex@alexgyver.ru](mailto:alex@alexgyver.ru)  
