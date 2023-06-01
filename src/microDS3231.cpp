@@ -61,6 +61,32 @@ void MicroDS3231::setTime(DateTime time) {
     setTime(time.second, time.minute, time.hour, time.date, time.month, time.year);
 }
 
+
+void MicroDS3231::setTime(uint32_t time, int16_t gmt) {
+    time += _gmt * 3600ul;
+    uint8_t second = time% 60ul;
+    time /= 60ul;
+    uint8_t minute = time % 60ul;
+    time /= 60ul;
+    uint8_t hour = time % 24ul;
+    time /= 24ul;
+    uint8_t dayOfWeek = (time + 4) % 7;
+    if (!dayOfWeek) dayOfWeek = 7;
+    uint32_t z = time + 719468;
+    uint8_t era = z / 146097ul;
+    uint16_t doe = z - era * 146097ul;
+    uint16_t yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+    uint16_t y = yoe + era * 400;
+    uint16_t doy = doe - (yoe * 365 + yoe / 4 - yoe / 100);
+    uint16_t mp = (doy * 5 + 2) / 153;
+    uint8_t day = doy - (mp * 153 + 2) / 5 + 1;
+    uint8_t month = mp + (mp < 10 ? 3 : -9);
+    y += (month <= 2);
+    uint16_t year = y;
+    setTime(second, minute, hour, date, month, year);
+}
+
+
 static int charToDec(const char* p) {
     return ((*p - '0') * 10 + (*(p + 1) - '0'));
 }
