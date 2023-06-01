@@ -10,12 +10,13 @@ Lightweight RTC DS3231 library for Arduino
 Compatible with all Arduino platforms (using Arduino functions)
 
 ## Content
-- [Install](#install)
-- [Initialization](#init)
+- [Content](#content)
+- [Installation](#installation)
+- [Initialization](#initialization)
 - [Usage](#usage)
 - [Example](#example)
 - [Versions](#versions)
-- [Bugs and feedback](#feedback)
+- [Bugs and feedback](#bugs-and-feedback)
 
 <a id="install"></a>
 ## Installation
@@ -43,6 +44,7 @@ MicroDS3231rcranberry tc(address); // specify your address
 boolbegin(); // initialization, will return true if RTC is found
 void setTime(uint8_tparam); // set time == compile time
 void setTime(DateTime); // set from DateTime structure
+void setTime(uint32_t time, int16_t gmt);	    // set time from UNIX time (set your timezone in hours OR minutes)
 void setTime(int8_t seconds, int8_t minutes, int8_t hours, int8_t date, int8_t month, int16_t year); // set the time
 void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t month, int16_t year); // set time type 2
     
@@ -63,6 +65,7 @@ uint8_t getDay(); // get the day of the week
 uint8_t getDate(); // get number
 uint16_t getYear(); // get the year
 uint8_t getMonth(); // get the month
+uint32_t getUnix(int16_t gmt);  // get the Unixtime (set your timezone in hours OR minutes)
     
 String getTimeString(); // get the time as a string like HH:MM:SS
 String getDateString(); // get the date as a string like DD.MM.YYYY
@@ -193,6 +196,8 @@ void loop() {
 - v2.4 - fixed compilation time setting
 - v2.5 - added begin to check if a module is on the line
 - v2.6 - fixed negative temperatures
+- v2.7 - added getting UNIXTIME
+- v2.8 - added setting by UNIXTIME
     
 <a id="feedback"></a>
 ## Bugs and feedback

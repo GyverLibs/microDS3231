@@ -7,7 +7,7 @@
     - Вывод в char* и String
     - Чтение температуры датчика
     
-    Egor 'Nich1con' Zakharov & AlexGyver, alex@alexgyver.ru
+    Egor 'Nich1con' Zakharov & AlexGyver, alex@alexgyver.ru & Alexander 'MIMBOL' Malygin
     https://alexgyver.ru/
     MIT License
 
@@ -23,6 +23,7 @@
 	v2.5 - добавлен begin для проверки наличия модуля на линии
     v2.6 - исправлены отрицательные температуры
     v2.7 - добавлен вывод unix
+    v2.8 - добавлен ввод unix
 */
 
 #ifndef microDS3231_h
@@ -50,6 +51,7 @@ public:
 	bool begin();								    // инициализация, вернет true, если RTC найден
     void setTime(const __FlashStringHelper* stamp);	// установка времени == времени компиляции
     void setTime(DateTime time);	                // установить из структуры DateTime
+    void setTime(uint32_t time, int16_t gmt);	    // установить из unix времени (указать свой часовой пояс в часах ИЛИ минутах)
     void setTime(int8_t seconds, int8_t minutes, int8_t hours, int8_t date, int8_t month, int16_t year);	// установка времени
     void setHMSDMY(int8_t hours, int8_t minutes, int8_t seconds, int8_t date, int8_t month, int16_t year);	// установка времени тип 2
     
