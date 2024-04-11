@@ -1,4 +1,6 @@
 [![latest](https://img.shields.io/github/v/release/GyverLibs/microDS3231.svg?color=brightgreen)](https://github.com/GyverLibs/microDS3231/releases/latest/download/microDS3231.zip)
+[![PIO](https://badges.registry.platformio.org/packages/gyverlibs/library/microDS3231.svg)](https://registry.platformio.org/libraries/gyverlibs/microDS3231)
+[![arduino-library](https://www.ardu-badge.com/badge/microDS3231.svg?)](https://www.ardu-badge.com/microDS3231)
 [![Foo](https://img.shields.io/badge/Website-AlexGyver.ru-blue.svg?style=flat-square)](https://alexgyver.ru/)
 [![Foo](https://img.shields.io/badge/%E2%82%BD$%E2%82%AC%20%D0%9D%D0%B0%20%D0%BF%D0%B8%D0%B2%D0%BE-%D1%81%20%D1%80%D1%8B%D0%B1%D0%BA%D0%BE%D0%B9-orange.svg?style=flat-square)](https://alexgyver.ru/support_alex/)
 [![Foo](https://img.shields.io/badge/README-ENGLISH-blueviolet.svg?style=flat-square)](https://github-com.translate.goog/GyverLibs/microDS3231?_x_tr_sl=ru&_x_tr_tl=en)  
