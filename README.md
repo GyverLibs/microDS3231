@@ -6,6 +6,9 @@
 
 [![Foo](https://img.shields.io/badge/ПОДПИСАТЬСЯ-НА%20ОБНОВЛЕНИЯ-brightgreen.svg?style=social&logo=telegram&color=blue)](https://t.me/GyverLibs)
 
+|⚠️⚠️⚠️<br>**Библиотека архивирована! Используйте [GyverDS3231](https://github.com/GyverLibs/GyverDS3231) - она гораздо удобнее и имеет больше возможностей**<br>⚠️⚠️⚠️|
+| --- |
+
 # microDS3231
 Лёгкая библиотека для работы с RTC DS3231 для Arduino
 - Чтение и запись времени
