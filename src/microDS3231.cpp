@@ -108,7 +108,7 @@ DateTime MicroDS3231::getTime() {
 
 uint32_t MicroDS3231::getUnix(int16_t gmt) {
     DateTime now = getTime();
-    if (abs(gmt) <= 12) gmt *= 60;
+    if (gmt <= 14 && gmt >= -12) gmt *= 60;
     int8_t my = (now.month >= 3) ? 1 : 0;
     uint16_t y = now.year + my - 1970;
     uint16_t dm = 0;
