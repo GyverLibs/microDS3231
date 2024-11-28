@@ -18,11 +18,9 @@ static uint16_t getWeekDay(uint16_t y, uint8_t m, uint8_t d) {
 
 // поiхали
 MicroDS3231::MicroDS3231(uint8_t addr) : _addr(addr) {
-    Wire.begin();
 }
 
 bool MicroDS3231::begin(void){
-    Wire.begin();                       // Инит шины
     Wire.beginTransmission(_addr);      // Зовем DS3231 по адресу
     return (!Wire.endTransmission());   // если никто не откликнулся - возвращаем false
 }
